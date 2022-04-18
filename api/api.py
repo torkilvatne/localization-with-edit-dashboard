@@ -29,7 +29,7 @@ db = SessionLocal()
 def read_root():
     return {"Hello": "World"}
 
-@app.get("/texts", status_code=status.HTTP_200_OK)
+@app.get("/texts", response_model=List[Text], status_code=status.HTTP_200_OK)
 def get_all_texts():
     texts=db.query(models.Text).all()
     return texts
@@ -47,3 +47,28 @@ def get_all_texts():
         "en-us" : en_us
     }
     return texts_formatted
+
+
+
+@app.post("/text", response_model=Text, status_code=status.HTTP_201_CREATED)
+def update_a_text(text:Text):
+    new_text = models.Text(
+        id = text.id,
+        en_us = text.en_us,
+        no_nb = text.no_nb
+    )
+    db.add(new_text)
+    db.commit()
+
+    return new_text
+
+
+@app.put("/text/{field_id}", response_model=Text, status_code=status.HTTP_200_OK)
+def update_a_text(field_id: str, text:Text):
+    text_to_update=db.query(models.Text).filter(models.Text.id == field_id).first()
+    text_to_update.en_us = text.en_us
+    text_to_update.no_nb = text.no_nb
+
+    db.commit()
+
+    return text_to_update

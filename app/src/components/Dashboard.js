@@ -27,18 +27,62 @@ const style = {
 const Dashboard = (props) => {
   const [rows, setRows] = useState([]);
   const [selectedRow, setSelectedRow] = useState(null);
-  const handleClose = () => setSelectedRow(null);
+  const [addNewField, setAddNewField] = useState(false);
+  const [updateFieldInputs, setUpdateFieldInputs] = useState({});
 
-  useEffect(() => {
-    // GET request using fetch inside useEffect React hook
+  const fetchTexts = () => {
     fetch("http://localhost:8000/texts")
       .then((response) => response.json())
       .then((data) => setRows(data));
+  };
 
-    // empty dependency array means this effect will only run once (like componentDidMount in classes)
+  const handleClose = () => {
+    setSelectedRow(null);
+    setAddNewField(false);
+  };
+
+  const handleSetSelectedRow = (index) => {
+    setUpdateFieldInputs(rows[index]);
+    setSelectedRow(index);
+  };
+
+  const handleUpdateFieldInputsChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setUpdateFieldInputs((values) => ({ ...values, [name]: value }));
+  };
+
+  const handleUpdateSubmit = (event) => {
+    event.preventDefault();
+    fetch("http://localhost:8000/text/" + updateFieldInputs.id, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updateFieldInputs),
+    });
+    setUpdateFieldInputs({});
+    handleClose();
+    fetchTexts();
+  };
+
+  const handleAddSubmit = (event) => {
+    event.preventDefault();
+    fetch("http://localhost:8000/text", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updateFieldInputs),
+    });
+    setUpdateFieldInputs({});
+    handleClose();
+    fetchTexts();
+  };
+
+  useEffect(() => {
+    fetchTexts();
   }, []);
-
-  console.log(selectedRow);
 
   return (
     <div className="App">
@@ -47,7 +91,9 @@ const Dashboard = (props) => {
           <FormattedMessage id="hello" />
         </h1>
         <p>
-          <Link to="/">Go home</Link>
+          <Link to="/">
+            <FormattedMessage id="go_home" />
+          </Link>
         </p>
         <div className="table">
           <TableContainer component={Paper}>
@@ -80,9 +126,9 @@ const Dashboard = (props) => {
                     <TableCell align="right">
                       <Button
                         color="primary"
-                        onClick={() => setSelectedRow(index)}
+                        onClick={() => handleSetSelectedRow(index)}
                       >
-                        Edit
+                        Update
                       </Button>
                     </TableCell>
                   </TableRow>
@@ -90,6 +136,9 @@ const Dashboard = (props) => {
               </TableBody>
             </Table>
           </TableContainer>
+          <Button color="primary" onClick={() => setAddNewField(true)}>
+            Add new field
+          </Button>
           {selectedRow !== null && (
             <Modal
               open={selectedRow !== null}
@@ -98,7 +147,77 @@ const Dashboard = (props) => {
               aria-describedby="modal-modal-description"
             >
               <Box sx={style}>
-                <p>Edit field '{rows[selectedRow]["id"]}'</p>
+                <p>
+                  Update field <b>{rows[selectedRow]["id"]}</b>
+                </p>
+                <form onSubmit={handleUpdateSubmit}>
+                  <label>
+                    en_us:
+                    <input
+                      type="text"
+                      name="en_us"
+                      value={updateFieldInputs.en_us || ""}
+                      onChange={handleUpdateFieldInputsChange}
+                    />
+                  </label>
+                  <br />
+                  <label>
+                    no_nb:
+                    <input
+                      type="text"
+                      name="no_nb"
+                      value={updateFieldInputs.no_nb || ""}
+                      onChange={handleUpdateFieldInputsChange}
+                    />
+                  </label>
+                  <br />
+                  <input type="submit" />
+                </form>
+              </Box>
+            </Modal>
+          )}
+          {addNewField && (
+            <Modal
+              open={addNewField}
+              onClose={handleClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Box sx={style}>
+                <p>Add new field</p>
+                <form onSubmit={handleAddSubmit}>
+                  <label>
+                    id:
+                    <input
+                      type="text"
+                      name="id"
+                      value={updateFieldInputs.id || ""}
+                      onChange={handleUpdateFieldInputsChange}
+                    />
+                  </label>
+                  <br />
+                  <label>
+                    en_us:
+                    <input
+                      type="text"
+                      name="en_us"
+                      value={updateFieldInputs.en_us || ""}
+                      onChange={handleUpdateFieldInputsChange}
+                    />
+                  </label>
+                  <br />
+                  <label>
+                    no_nb:
+                    <input
+                      type="text"
+                      name="no_nb"
+                      value={updateFieldInputs.no_nb || ""}
+                      onChange={handleUpdateFieldInputsChange}
+                    />
+                  </label>
+                  <br />
+                  <input type="submit" />
+                </form>
               </Box>
             </Modal>
           )}
