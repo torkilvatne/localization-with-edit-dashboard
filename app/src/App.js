@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { IntlProvider } from "react-intl";
-import "./App.css";
-
-import Content from "./components/Content";
 import { LOCALES } from "./localization/locales";
 import messages from "./localization/messages";
+
+import Content from "./components/Content";
+import Dashboard from "./components/Dashboard";
+import "./App.css";
+
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   function getInitialLocal() {
@@ -20,18 +23,28 @@ function App() {
     // storing locale in the localstorage
     localStorage.setItem("locale", e.target.value);
   };
-  console.log(messages);
-  console.log(messages["en-us"]);
-  console.log(messages[currentLocale]);
 
   return (
-    <IntlProvider
-      messages={messages[currentLocale]}
-      locale={currentLocale}
-      defaultLocale={LOCALES.ENGLISH}
-    >
-      <Content currentLocale={currentLocale} handleChange={handleChange} />
-    </IntlProvider>
+    <Router>
+      <IntlProvider
+        messages={messages[currentLocale]}
+        locale={currentLocale}
+        defaultLocale={LOCALES.ENGLISH}
+      >
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Content
+                currentLocale={currentLocale}
+                handleChange={handleChange}
+              />
+            }
+          />
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Routes>
+      </IntlProvider>
+    </Router>
   );
 }
 

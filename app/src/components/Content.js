@@ -1,6 +1,7 @@
 import React from "react";
 import { LOCALES } from "../localization/locales";
 import { FormattedMessage } from "react-intl";
+import { Link } from "react-router-dom";
 
 const Content = (props) => {
   const languages = [
@@ -16,6 +17,9 @@ const Content = (props) => {
         </h1>
         <p>
           <FormattedMessage id="sub_header" />
+        </p>
+        <p>
+          <Link to="/dashboard">Go to dashboard</Link>
         </p>
 
         <div className="switcher">
