@@ -14,7 +14,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "texts": "curl http://127.0.0.1:8000/texts -o src/localization/raw_texts.json",
+    "texts": "curl http://127.0.0.1:8000/formattedTexts -o src/localization/raw_texts.json",
     "start": "npm run-script texts && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

@@ -13,8 +13,12 @@ db = SessionLocal()
 def read_root():
     return {"Hello": "World"}
 
-
 @app.get("/texts", status_code=status.HTTP_200_OK)
+def get_all_texts():
+    texts=db.query(models.Text).all()
+    retun texts
+
+@app.get("/formattedTexts", status_code=status.HTTP_200_OK)
 def get_all_texts():
     texts=db.query(models.Text).all()
     no_nb = {}
