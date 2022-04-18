@@ -2,6 +2,8 @@
 A quickly written code demonstrating a React app with text based on locale (only English and Norwegain). 
 Frontend is React, API uses FastAPI and database uses PostgreSQL on a Docker container.
 
+When running 'npm start', the texts are fetched from the database and added locally to file for the React app to use.
+
 ## Setup db
 
 Locate repo in terminal window and run following commands to set up Docker db container and populate db.
