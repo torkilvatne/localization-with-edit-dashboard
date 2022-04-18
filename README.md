@@ -15,7 +15,7 @@ Make sure the docker container is running before you continue.
 
 ## Setup API
 
-Locate repo in terminal window and run following commands to set up Docker db container and populate db.
+Locate repo in terminal window and run following commands to set up FastAPI.
 
 ```sh
 $ cd api
@@ -25,7 +25,7 @@ $ uvicorn api:app --reload
 
 ## Setup React app
 
-Locate repo in terminal window and run following commands to set up Docker db container and populate db.
+Locate repo in terminal window and run following commands to set up the React app.
 
 ```sh
 $ cd app
