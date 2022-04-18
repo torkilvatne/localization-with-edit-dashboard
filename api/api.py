@@ -51,7 +51,11 @@ def get_all_texts():
 
 
 @app.post("/text", response_model=Text, status_code=status.HTTP_201_CREATED)
-def update_a_text(text:Text):
+def create_a_text(text:Text):
+    text_in_db = db.query(models.Text).filter(models.Text.id == text.id).first()
+    if text_in_db is not None:
+        raise HTTPException(status_code=400, detail="Textfield id already exists.")
+
     new_text = models.Text(
         id = text.id,
         en_us = text.en_us,
