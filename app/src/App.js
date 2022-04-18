@@ -4,7 +4,7 @@ import "./App.css";
 
 import Content from "./components/Content";
 import { LOCALES } from "./localization/locales";
-import { messages } from "./localization/messages";
+import messages from "./localization/messages";
 
 function App() {
   function getInitialLocal() {
@@ -20,6 +20,9 @@ function App() {
     // storing locale in the localstorage
     localStorage.setItem("locale", e.target.value);
   };
+  console.log(messages);
+  console.log(messages["en-us"]);
+  console.log(messages[currentLocale]);
 
   return (
     <IntlProvider

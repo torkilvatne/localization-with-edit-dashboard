@@ -1,0 +1,13 @@
+DROP TABLE IF EXISTS localization_texts;
+
+CREATE TABLE texts (
+    id VARCHAR(100) PRIMARY KEY NOT NULL,
+    en_us TEXT,
+    no_nb TEXT
+);
+
+INSERT INTO texts (id, en_us, no_nb) VALUES ( 'hello', 'Hello, this is an example of localization', 'Hallo, dette er et eksempel på tekstlokalisering');
+INSERT INTO texts (id, en_us, no_nb) VALUES ( 'sub_header', 'In this example we have two languages; English and Norwegian.', 'I dette eksempelet har vi to språk; Engelsk og Norsk.');
+INSERT INTO texts (id, en_us, no_nb) VALUES ( 'price_display', 'How {n, number, ::currency/USD} is displayed in your selected language', 'Slik {n, number, ::currency/NOK} NOK blir valuta formattert i valgt språk');
+INSERT INTO texts (id, en_us, no_nb) VALUES ( 'number_display', 'This is how {n, number} is formatted in the selected locale', 'Slik blir {n, number} formattert på valgt språk');
+INSERT INTO texts (id, en_us, no_nb) VALUES ( 'start_today', 'Todays date: {d, date}', 'Dagens dato: {d, date}');

@@ -1,9 +1,8 @@
 import React from "react";
 import { LOCALES } from "../localization/locales";
-import { FormattedDate, FormattedMessage, useIntl } from "react-intl";
+import { FormattedMessage } from "react-intl";
 
 const Content = (props) => {
-  const intl = useIntl();
   const languages = [
     { name: "English", code: LOCALES.ENGLISH },
     { name: "Norsk", code: LOCALES.NORWEGIAN },

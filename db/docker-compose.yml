@@ -1,0 +1,24 @@
+# Read https://towardsdatascience.com/how-to-run-postgresql-using-docker-15bf87b452d4 to see how to populate db
+
+# Run commands:
+# $ docker compose up
+# $ docker exec -it localization_container bash -c "psql -h localization_container -d localization_db -U root -f infile"
+version: "3.8"
+
+services:
+  db:
+    container_name: localization_container
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: localization_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./infile:/infile
+      - localization_volume_data:/var/lib/postgresql/data/
+
+volumes:
+  localization_volume_data:
