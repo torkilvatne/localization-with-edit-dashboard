@@ -76,3 +76,16 @@ def update_a_text(field_id: str, text:Text):
     db.commit()
 
     return text_to_update
+
+
+@app.delete("/text/{field_id}", response_model=Text, status_code=status.HTTP_200_OK)
+def update_a_text(field_id: str):
+    text_to_delete=db.query(models.Text).filter(models.Text.id == field_id).first()
+
+    if text_to_delete is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Textfield not found.")
+
+    db.delete(text_to_delete)
+    db.commit()
+
+    return text_to_delete

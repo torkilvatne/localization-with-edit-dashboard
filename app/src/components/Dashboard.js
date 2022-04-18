@@ -46,6 +46,17 @@ const Dashboard = (props) => {
     setSelectedRow(index);
   };
 
+  const handleDeleteRow = (index) => {
+    console.log(rows[index].id);
+    fetch("http://localhost:8000/text/" + rows[index].id, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+    }).then(() => fetchTexts());
+  };
+
   const handleUpdateFieldInputsChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -60,10 +71,9 @@ const Dashboard = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(updateFieldInputs),
-    });
+    }).then(() => fetchTexts());
     setUpdateFieldInputs({});
     handleClose();
-    fetchTexts();
   };
 
   const handleAddSubmit = (event) => {
@@ -74,10 +84,9 @@ const Dashboard = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(updateFieldInputs),
-    });
+    }).then(() => fetchTexts());
     setUpdateFieldInputs({});
     handleClose();
-    fetchTexts();
   };
 
   useEffect(() => {
@@ -110,6 +119,7 @@ const Dashboard = (props) => {
                     <b>no-nb</b>
                   </TableCell>
                   <TableCell align="right"></TableCell>
+                  <TableCell align="right"></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -129,6 +139,14 @@ const Dashboard = (props) => {
                         onClick={() => handleSetSelectedRow(index)}
                       >
                         Update
+                      </Button>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Button
+                        color="primary"
+                        onClick={() => handleDeleteRow(index)}
+                      >
+                        Delete
                       </Button>
                     </TableCell>
                   </TableRow>
