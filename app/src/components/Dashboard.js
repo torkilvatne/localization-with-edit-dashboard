@@ -46,6 +46,12 @@ const Dashboard = (props) => {
     setSelectedRow(index);
   };
 
+  const handleUpdateFieldInputsChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setUpdateFieldInputs((values) => ({ ...values, [name]: value }));
+  };
+
   const handleDeleteRow = (index) => {
     console.log(rows[index].id);
     fetch("http://localhost:8000/text/" + rows[index].id, {
@@ -55,12 +61,6 @@ const Dashboard = (props) => {
         "Access-Control-Allow-Origin": "*",
       },
     }).then(() => fetchTexts());
-  };
-
-  const handleUpdateFieldInputsChange = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-    setUpdateFieldInputs((values) => ({ ...values, [name]: value }));
   };
 
   const handleUpdateSubmit = (event) => {
