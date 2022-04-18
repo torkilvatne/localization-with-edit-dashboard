@@ -1,4 +1,6 @@
 # React app with Localization
+A quickly written code demonstrating a React app with text based on locale (only English and Norwegain). 
+Frontend is React, API uses FastAPI and database uses PostgreSQL on a Docker container.
 
 ## Setup db
 
