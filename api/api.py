@@ -1,11 +1,27 @@
 from typing import Optional, List
 
 from fastapi import FastAPI, status, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from schemas import Text
 from database import SessionLocal
 import models
 
 app = FastAPI()
+
+origins = [
+    "http://localhost",
+    "http://localhost:3000",
+    "http://localhost:8000",
+    "http://localhost:8080",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 db = SessionLocal()
 
@@ -16,7 +32,7 @@ def read_root():
 @app.get("/texts", status_code=status.HTTP_200_OK)
 def get_all_texts():
     texts=db.query(models.Text).all()
-    retun texts
+    return texts
 
 @app.get("/formattedTexts", status_code=status.HTTP_200_OK)
 def get_all_texts():
